@@ -1,15 +1,19 @@
+require('dotenv-safe').config()
+
 const express = require('express')
 const { GoogleSpreadsheet } = require('google-spreadsheet')
 const helment = require('helmet')
 const cors = require('cors')
-require('dotenv-safe').config()
+const morgan = require('morgan')
+const creds = require('./app-creds.json');
 
 const app = express()
 app.use(express.json())
+
 app.use(cors())
 app.use(helment())
 
-const creds = require('./app-creds.json');
+app.use(morgan('combined'))
 
 const authenticateSheet = async () => {
   const doc = new GoogleSpreadsheet(process.env.SHEET_ID);
@@ -33,5 +37,5 @@ app.post('/log-to-sheet', async (req, res) => {
 })
 
 app.listen(process.env.PORT, () => {
-  console.info('APP RUNNING')
+  console.info('APP RUNNING ON '+process.env.PORT)
 })
