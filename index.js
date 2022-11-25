@@ -1,11 +1,12 @@
 const express = require('express')
 const { GoogleSpreadsheet } = require('google-spreadsheet')
 const helment = require('helmet')
+const cors = require('cors')
 require('dotenv-safe').config()
 
 const app = express()
 app.use(express.json())
-
+app.use(cors())
 app.use(helment())
 
 const creds = require('./app-creds.json');
